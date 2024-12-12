@@ -1,13 +1,18 @@
 class BooksController < ApplicationController
   def index
-    @books = Book.all
-
-    render json: @books
+    @books = Book.paginate(page: params[:page], per_page: 10)
+    render json: {
+      books: @books,
+      meta: {
+        current_page: @books.current_page,
+        total_pages: @books.total_pages,
+        total_books: @books.total_entries
+      }
+    }
   end
 
   def create
-    user_id = 1
-    book = Book.create(book_params.merge(user_id: user_id))
+    book = Book.create(book_params)
     book.save
     if book.valid?
       render json: book, status: :created
@@ -17,11 +22,21 @@ class BooksController < ApplicationController
   end
 
   def update
-    Book.update(params)
+    book = Book.find(params[:id])
+    if book.update(book_params)
+      render json: book, status: :ok
+    else
+      render json: { errors: book.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   def destroy
-    Book.destroy(params)
+    book = Book.find(params[:id])
+    if book.destroy
+      render json: { message: "Book successfully deleted" }, status: :ok
+    else
+      render json: { errors: "Failed to delete the book" }, status: :unprocessable_entity
+    end
   end
 
   def popular
@@ -32,6 +47,6 @@ class BooksController < ApplicationController
   end
 
   def book_params
-    params.require(:book).permit(:title, :author, :genre, :rating, :status)
+    params.require(:book).permit(:title, :author, :genre, :average_rating)
   end
 end
