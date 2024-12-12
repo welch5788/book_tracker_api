@@ -23,7 +23,7 @@ This project is a **Personal Book Tracker API** implemented in Ruby on Rails. Th
 ### Setup
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/book_tracker_api.git
+   git clone https://github.com/welch5788/book_tracker_api.git
    cd book_tracker_api
    ```
 
