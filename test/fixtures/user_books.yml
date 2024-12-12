@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  book: one
+  status: MyString
+  created_at: 2024-12-11 17:32:56
+
+two:
+  user: two
+  book: two
+  status: MyString
+  created_at: 2024-12-11 17:32:56
